@@ -1,5 +1,6 @@
 from data.database_dna_rna import *
 from data.database_triplets_aminoacids import *
+import matplotlib.pyplot as plt
 
 
 def convert_dna_to_rna(dna_input):
@@ -21,7 +22,7 @@ def convert_dna_to_rna(dna_input):
     return rna
 
 
-rna1 = convert_dna_to_rna(input())
+rna1 = convert_dna_to_rna(input("Input DNA sequence: "))
 print(rna1)
 
 
@@ -36,5 +37,38 @@ def convert_rna_to_protein(rna_input):
     return protein
 
 
-protein1 = convert_rna_to_protein(input())
+protein1 = convert_rna_to_protein(input("Input RNA sequence: "))
 print(protein1)
+
+
+def gc_content_ratio(sequence, step):
+    genome_position = []
+    gc_content_list = []
+    step = int(step)
+    for base in range(0, len(sequence) - step + 1, step):
+        part = sequence[base:base + step]
+        genome_position.append(base + step)
+        gc_content = (part.count("G") + part.count("C")) / len(part) * 100
+        gc_content_list.append(gc_content)
+    plt.plot(genome_position, gc_content_list)
+    plt.xlabel('Genome position')
+    plt.ylabel('GC-content ratio')
+    plt.title('GC-content metric')
+    return plt.show()
+
+
+fileReader = open("genomic.fna", 'r')
+covid_sequence = ""
+for number, line in enumerate(fileReader):
+    if number > 0:
+        covid_sequence += line
+fileReader.close()
+
+gc = gc_content_ratio(covid_sequence, 100)
+
+"""
+Script to run gc_content_ratio with different DNA sequence and size of the window
+
+gc = gc_content_ratio(input("Input the DNA sequence: "), input("Input the size of the window "))
+print(gc)
+"""
