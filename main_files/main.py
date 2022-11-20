@@ -1,17 +1,19 @@
-from data.database_dna_rna import *
-from data.database_triplets_aminoacids import *
 import matplotlib.pyplot as plt
+
+from data.database_dna_rna import dna_sequence
+from data.database_triplets_aminoacids import codons_list
 
 
 def convert_dna_to_rna(dna_input):
     """
-    Original function that I created before the database
+    Original function that was created before the database
+    and which converts DNA sequence to RNA sequence.
     """
     # rna = dna_input.replace("T", "U")
 
     """
-    Below I tried to use the information from the database because 
-    in the database I've already set the relations between DNA bases and RNA bases
+    Below in order to convert DNA sequence to RNA sequence the information from the database is used 
+    because in the database the relations between DNA bases and RNA bases are already set
     """
 
     rna = ""
@@ -22,11 +24,19 @@ def convert_dna_to_rna(dna_input):
     return rna
 
 
+"""
+Code to run the function convert_dna_to_rna
+
 rna1 = convert_dna_to_rna(input("Input DNA sequence: "))
 print(rna1)
+"""
 
 
 def convert_rna_to_protein(rna_input):
+    """
+    Function that converts RNA to protein.
+    All the relations between triplets and amino acids are set in the database.
+    """
     protein = ""
     for nucleotide in range(0, len(rna_input), 3):
         triplet_input = rna_input[nucleotide:nucleotide + 3]
@@ -37,8 +47,12 @@ def convert_rna_to_protein(rna_input):
     return protein
 
 
+"""
+Code to run the function convert_rna_to_protein
+
 protein1 = convert_rna_to_protein(input("Input RNA sequence: "))
 print(protein1)
+"""
 
 
 def gc_content_ratio(sequence, step):
@@ -57,7 +71,11 @@ def gc_content_ratio(sequence, step):
     return plt.show()
 
 
-fileReader = open("genomic.fna", 'r')
+"""
+Code below refers to the file genomic.fna which contains SARS-CoV-2 genome
+and is used as data to call gc_content_ratio function.
+"""
+fileReader = open("data/genomic.fna", 'r')
 covid_sequence = ""
 for number, line in enumerate(fileReader):
     if number > 0:

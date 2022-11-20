@@ -4,6 +4,8 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
+# from config import triplets_aminoacids_relations_address
+
 engine = create_engine("sqlite:///triplets_aminoacids_relations.db")
 
 Session = sessionmaker(bind=engine)
@@ -72,17 +74,18 @@ for key in genetic_code:
     codons_list.append(key)
 
 
-with Session() as session:
-    session.add_all(codons_list)
+if __name__ == "__main__":
+    with Session() as session:
+        session.add_all(codons_list)
+        session.commit()
+        for codon in session.query(Codons).all():
+            print(codon)
+
+    session.query(Codons).delete()
     session.commit()
-    for codon in session.query(Codons).all():
-        print(codon)
 
 """
 I delete the information from the database at the end of the file
 because the information is added again every time I run the script.
 Not sure how to repair it in a good way.
 """
-
-session.query(Codons).delete()
-session.commit()

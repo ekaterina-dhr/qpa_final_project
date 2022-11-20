@@ -4,6 +4,8 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
+# from config import dna_rna_relations_address
+
 engine = create_engine("sqlite:///dna_rna_relations.db")
 
 Session = sessionmaker(bind=engine)
@@ -50,11 +52,16 @@ dna_base_4 = Dna(base="T", rna_relation=rna_base_4)
 
 dna_sequence = [dna_base_1, dna_base_2, dna_base_3, dna_base_4]
 
-with Session() as session:
-    session.add_all(dna_sequence)
+
+if __name__ == "__main__":
+    with Session() as session:
+        session.add_all(dna_sequence)
+        session.commit()
+        for dna in session.query(Dna).all():
+            print(dna)
+
+    session.query(Dna).delete()
     session.commit()
-    for dna in session.query(Dna).all():
-        print(dna)
 
 """
 I delete the information from the database at the end of the file
@@ -62,5 +69,4 @@ because the information is added again every time I run the script.
 Not sure how to repair it in a good way.
 """
 
-session.query(Dna).delete()
-session.commit()
+
