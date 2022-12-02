@@ -56,6 +56,11 @@ print(protein1)
 
 
 def gc_content_ratio(sequence, step):
+    """
+    This function plots G-C ratio in a DNA molecule.
+    The horizontal axis of the graph is the genome position.
+    The vertical axis is the GC ratio in each part of the window.
+    """
     genome_position = []
     gc_content_list = []
     step = int(step)
@@ -64,25 +69,34 @@ def gc_content_ratio(sequence, step):
         genome_position.append(base + step)
         gc_content = (part.count("G") + part.count("C")) / len(part) * 100
         gc_content_list.append(gc_content)
+
     plt.plot(genome_position, gc_content_list)
     plt.xlabel('Genome position')
     plt.ylabel('GC-content ratio')
     plt.title('GC-content metric')
-    return plt.show()
+
+    # code to save the plot as png file
+    # plt.savefig('plot.png')
+
+    # code to show the plot
+    # plt.show()
+
+    return gc_content_list
 
 
-"""
-Code below refers to the file genomic.fna which contains SARS-CoV-2 genome
-and is used as data to call gc_content_ratio function.
-"""
-fileReader = open("data/genomic.fna", 'r')
-covid_sequence = ""
-for number, line in enumerate(fileReader):
-    if number > 0:
-        covid_sequence += line
-fileReader.close()
+if __name__ == "__main__":
+    """
+    Code below refers to the file genomic.fna which contains SARS-CoV-2 genome
+    and is used as data to call gc_content_ratio function.
+    """
+    fileReader = open("data/genomic.fna", 'r')
+    covid_sequence = ""
+    for number, line in enumerate(fileReader):
+        if number > 0:
+            covid_sequence += line
+    fileReader.close()
 
-gc = gc_content_ratio(covid_sequence, 100)
+    gc = gc_content_ratio(covid_sequence, 100)
 
 """
 Script to run gc_content_ratio with different DNA sequence and size of the window
