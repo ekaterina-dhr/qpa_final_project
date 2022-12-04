@@ -13,3 +13,15 @@ There you can find two database files with total four tables of required data: d
 ## requirements.txt
 
 Please use this file to install necessery venv.
+
+## docker
+
+Command to run containers:
+```
+docker-compose up -d
+```
+
+Command to switch containers off:
+```
+docker-compose down
+```
